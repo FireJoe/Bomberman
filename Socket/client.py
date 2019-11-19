@@ -22,14 +22,18 @@ class Client():
 		try:
 			while True:
 				full_msg = ""
+				maxlength = int(self.sock.recv(8).decode("utf-8"));
+				
 				while True:
-					msg = self.sock.recv(8)
+					msg = self.sock.recv(min(8,maxlength-len(full_msg)))
 					full_msg += msg.decode("utf-8")
 					
-					if len(msg) <= 0 or msg == " " or full_msg.endswith(" "):
-						if len(full_msg) > 0:
-							self.receiveData(full_msg)
-						break
+					if(len(full_msg) == maxlength):
+						self.receiveData(full_msg)
+						break;
+						
+			
+			
 						
 		except KeyboardInterrupt:
 			_endtime = time.time()
@@ -41,8 +45,13 @@ class Client():
 			
 	def emit(self,chanel,data):
 		sendmsg = chanel +":"+json.dumps(data)
+		length = len(sendmsg)
+		self.sock.send(str(length).rjust(8).encode("utf-8"))
+		
 		self.sock.send(sendmsg.encode("utf-8"))
-		self.sock.send(b" ")
+	
+	def close(self):
+		self.sock.close();
 		
 	def on(self,chanel,function):
 		self.events[chanel] = function;
@@ -57,7 +66,7 @@ class Client():
 				self.loggedin = True;
 				print("Erfolgreich eingeloggt!")
 		
-		elif(chanel in self.events.keys()):
+		if(chanel in self.events.keys()):
 			self.events[chanel](data);
 			
 			

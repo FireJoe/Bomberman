@@ -24,10 +24,11 @@ class Spieler():
 		self.events = {};
 		
 	def emit(self,chanel,data):
-		#print("emit: " + chanel + "\ndata:" + str(data))
 		sendmsg = chanel +":"+json.dumps(data)
+		length = len(sendmsg)
+		self.con.send(str(length).rjust(8).encode("utf-8"))
+		
 		self.con.send(sendmsg.encode("utf-8"))
-		self.con.send(b" ")
 		
 	def on(self,chanel,function):
 		self.events[chanel] = function;
@@ -67,23 +68,27 @@ class Server():
 			print("----------")
 			self.sock.close();
 			
-	def ClientHandler(self,spieler):
+	def ClientHandler(self,sp):
 		while True:
 			#debug("still there... "+str(spieler.addr))
 			#time.sleep(5)
 			
 			full_msg = ""
-			while True:
+			try:
+				maxlength = int(sp.con.recv(8).decode("utf-8"));
+				while True:
 				
-				msg = spieler.con.recv(8)
-				full_msg += msg.decode("utf-8")
-				
-				if len(msg) <= 0 or msg == " " or full_msg.endswith(" "):
-					if len(full_msg) > 0:
-						spieler.receiveData(full_msg)
-					break
-			
-			
+					msg = sp.con.recv(min(8,maxlength-len(full_msg)))
+					full_msg += msg.decode("utf-8")
+					
+					if(len(full_msg) == maxlength):
+						sp.receiveData(full_msg)
+						break;
+						
+			except ConnectionResetError:
+				if sp in self.spieler:
+					self.spieler.remove(sp);
+		
 			
 			
 	

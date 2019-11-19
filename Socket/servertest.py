@@ -8,8 +8,11 @@ def spielerHandler(spieler):
 	def pingEvent(data):
 		spieler.emit("pong",data)
 	
-	spieler.on("ping", pingEvent)
+	def testlistEvent(data):
+		spieler.emit("testlist",data)
 	
+	spieler.on("ping", pingEvent)
+	spieler.on("testlist", testlistEvent)
 	spieler.emit("login", {"erfolgreich":True})
 
 

@@ -1,7 +1,5 @@
 ﻿# Multiplayer-Python-Bomberman #
 
-## BungeeCord
-## Application: ##
 
 ### Socket: ###
 * Server o
@@ -15,6 +13,17 @@
 * Jo
 * Neh
 * Geil
+
+
+## Theorie: ##
+* Spieler drück (W,A,S,D,*Bombe legen*)
+	* Eingabe wird an Server gesendet
+		* Eingabe wird geprüft bzw. durchgeführt
+			* Position/Richtung/Veränderung wird an alle geschickt
+			* Erst dann bekommt Spieler die änderung mit
+			
+	
+
 
 # Legende: #
 ##  : Planned ##
