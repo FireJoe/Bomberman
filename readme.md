@@ -5,12 +5,16 @@
 
 ### Socket: ###
 * Server o
-	* ServerTest ✔
+	* ServerTest-Programm ✔
+	* Recieve Data based on length 
 * Client o
-	* ClientTest ✔
+	* ClientTest-Programm ✔
+	* Recieve Data based on length 
 
-### Socker: ###
-
+### Game: ###
+* Jo
+* Neh
+* Geil
 
 # Legende: #
 ##  : Planned ##
