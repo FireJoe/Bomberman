@@ -1,13 +1,22 @@
 ﻿# Multiplayer-Python-Bomberman #
-
+### MPB ###
 
 ### Socket: ###
 * Server o
-	* ServerTest-Programm ✔
-	* Recieve Data based on length 
 * Client o
-	* ClientTest-Programm ✔
-	* Recieve Data based on length 
+* Features:
+	* Test-Programms ✔
+	* Recieve Data based on length ✔
+	* Close-Function o
+	* Auto-Reconnect o
+	* Standard-Functions/-Functions
+		* Ping/Pong-Event
+		* Connect-Event
+		* Disconnect-Event
+		
+	
+	
+
 
 ### Game: ###
 * Jo

@@ -9,7 +9,9 @@ def loginEvent(data):
 	print("Erfolgreicher Login? "+str(data["erfolgreich"]))
 	
 def testlistEvent(data):
-	print(data)
+	print(data[0])
+	print(data[1])
+	print(data[2])
 
 
 
