@@ -3,8 +3,6 @@ import server
 
 def spielerHandler(spieler):
 	
-	print("ja moin")
-	
 	def pingEvent(data):
 		spieler.emit("pong",data)
 	
@@ -21,5 +19,12 @@ server = server.Server("localhost",42069);
 server.onClientConnect = spielerHandler
 
 
-while True:
-	pass;
+
+running = True;
+try:
+	while running:
+		pass;
+except KeyboardInterrupt:
+	running = False;
+	server.close();
+	

@@ -2,12 +2,12 @@ import client
 import time
 
 
-def pongEvent(data):
-	print("Pong: " +str(round((time.time()-data)*1000))+ "ms")
+def onReconnectHandler():
+	print("Verbindung wiederhergestellt")
 	
-def loginEvent(data):
-	print("Erfolgreicher Login? "+str(data["erfolgreich"]))
-	
+def onConnectHandler():
+	print("Verbindung hergestellt")
+
 def testlistEvent(data):
 	print(data[0])
 	print(data[1])
@@ -15,25 +15,24 @@ def testlistEvent(data):
 
 
 
-client = client.Client("localhost",42069);
+client = client.Client("localhost",42069,reconnect=True);
 
 #while client.loggedin == False:
 #	time.sleep(0.5)
-	
-print("vorbei")
 
-client.on("pong", pongEvent)
-client.on("login", loginEvent)
+client.onReconnect = onReconnectHandler
+client.onConnect = onConnectHandler
+
 client.on("testlist", testlistEvent)
 
 client.emit("testlist", ["123","789","456"])
 
-while True:
-	client.emit("ping",time.time())
-	time.sleep(5)
+
+
+try:	
+	while True:
+		pass;
+except KeyboardInterrupt:
 	client.close();
 
 
-
-while True:
-	pass;
