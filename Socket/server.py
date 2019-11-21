@@ -70,6 +70,11 @@ class Server():
 			self.sock.close();
 			self.closed = True;
 			print("Der Server wurde ordnungsgemäß geschlossen!")
+					
+			_endtime = time.time()
+			print("----------")
+			print("Rip Server\nOnline for " + str(runden((_endtime-self.starttime)/60/60,3))+ " Hours")
+			print("----------")
 		else:
 			print("Der Server wurde bereits geschlossen!")
 		
@@ -82,13 +87,9 @@ class Server():
 				else:
 					break;
 		except KeyboardInterrupt:
+			print("breakit")
 			self.sock.close();
-			pass;
-			
-		_endtime = time.time()
-		print("----------")
-		print("Rip Server\nOnline for " + str(runden((_endtime-self.starttime)/60/60,3))+ " Hours")
-		print("----------")
+	
 			
 			
 	def ClientHandler(self,sp):

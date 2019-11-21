@@ -16,10 +16,8 @@ def testlistEvent(data):
 def onCloseHandler():
 	print("Server wurde geschlossen...")
 
-client = client.Client("localhost",42069,reconnect=True,reconnecttime=0.5);
+client = client.Client("localhost",42069,reconnecttime=0.5);
 
-#while client.loggedin == False:
-#	time.sleep(0.5)
 
 client.onReconnect = onReconnectHandler
 client.onConnect = onConnectHandler
@@ -32,7 +30,9 @@ client.emit("testlist", ["123","789","456"])
 
 
 try:	
-	while True:
+	while not client.isConnected():
+		pass
+	while client.isConnected():
 		pass;
 except KeyboardInterrupt:
 	client.close();
