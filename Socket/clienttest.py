@@ -13,15 +13,17 @@ def testlistEvent(data):
 	print(data[1])
 	print(data[2])
 
+def onCloseHandler():
+	print("Server wurde geschlossen...")
 
-
-client = client.Client("localhost",42069,reconnect=True);
+client = client.Client("localhost",42069,reconnect=True,reconnecttime=0.5);
 
 #while client.loggedin == False:
 #	time.sleep(0.5)
 
 client.onReconnect = onReconnectHandler
 client.onConnect = onConnectHandler
+client.onClose = onCloseHandler
 
 client.on("testlist", testlistEvent)
 

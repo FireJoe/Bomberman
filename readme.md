@@ -1,9 +1,9 @@
 ﻿# Multiplayer-Python-Bomberman #
-### MPB ###
+### M.P.B. ###
 
 ### Socket: ###
-* Server o
-* Client o
+* Server(server.Server(ip,port)) o
+* Client (client.Client(ip,port,(reconnect=True,reconnecttime=5.0))) o
 * Features:
 	* Test-Programms ✔
 	* Recieve Data based on length ✔
@@ -14,10 +14,10 @@
 		* Close-Funktion (client.close())✔
 		* Ping/Pong-Funktion (client.getPing()) ✔
 		* Connected-Funktion (client.isConnected()) ✔
-		* Connect-Event (client.onConnect = Connect-Function()) ✔
-		* Reconnect-Event (client.onReconnect = Reconnect-Function()) ✔
+		* Connect-Event (client.onConnect = Connect-Function) ✔
+		* Reconnect-Event (client.onReconnect = Reconnect-Function) ✔
+		* Close-Event (client.onClose = Close-Function) ✔
 		
-	
 	
 
 

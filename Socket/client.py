@@ -6,7 +6,7 @@ import json
 
 
 class Client():
-	def __init__(self,ip,port,reconnect=False):
+	def __init__(self,ip,port,reconnect=False,reconnecttime=5):
 		print("Ip-Adresse: " + str(ip) + "\nPort: " + str(port))
 		
 		self.sock = socket.socket()
@@ -21,6 +21,8 @@ class Client():
 		self.ping = -1;
 		self.onConnect = None;
 		self.onReconnect = None;
+		self.onClose = None;
+		self.reconnecttime = reconnecttime
 		
 		
 		start_new_thread(self.mainLoop,())
@@ -73,8 +75,8 @@ class Client():
 	def reconnect(self):
 		self.loggedin = False;
 		try:
-			print("Starte Verbindungsversuch in 5 Sekunden...")
-			time.sleep(5)
+			print("Starte Verbindungsversuch in "+str(self.reconnecttime)+" Sekunden...")
+			time.sleep(self.reconnecttime)
 			self.sock = socket.socket();
 			self.sock.connect((self.ip, self.port))
 			self.closed = False;
@@ -89,13 +91,16 @@ class Client():
 	def emit(self,chanel,data):
 		#print(self.closed)
 		#print(self.tryreconnect)
-		if ((not self.closed) or (not self.tryreconnect)):
-			sendmsg = chanel +":"+json.dumps(data)
-			length = len(sendmsg)
-			self.sock.send(str(length).rjust(64).encode("utf-8"))
-			
-			self.sock.send(sendmsg.encode("utf-8"))
-			return True;
+		try:
+			if ((not self.closed) or (not self.tryreconnect)):
+				sendmsg = chanel +":"+json.dumps(data)
+				length = len(sendmsg)
+				self.sock.send(str(length).rjust(64).encode("utf-8"))
+				
+				self.sock.send(sendmsg.encode("utf-8"))
+				return True;
+		except ConnectionResetError:
+			pass;
 		return False;
 	
 	def close(self):
@@ -114,8 +119,12 @@ class Client():
 		data = data.split(":",1)
 		chanel = data[0]
 		data = json.loads(data[1])
-		
-		if(chanel == "login" and self.loggedin == False):
+		print("chanel > " + chanel)
+		if(chanel == "close"):
+			self.loggedin = False;
+			if(self.onClose != None):
+				self.onClose();
+		elif(chanel == "login" and self.loggedin == False):
 			if(data["erfolgreich"] == True):
 				self.loggedin = True;
 				if(self.onConnect != None):

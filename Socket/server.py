@@ -65,6 +65,8 @@ class Server():
 			
 	def close(self):
 		if not self.closed:
+			self.globalMsg("close","Der Server wurde ordnungsgemäß geschlossen!")
+			time.sleep(1)
 			self.sock.close();
 			self.closed = True;
 			print("Der Server wurde ordnungsgemäß geschlossen!")
